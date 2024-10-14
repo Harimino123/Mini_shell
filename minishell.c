@@ -32,9 +32,13 @@ int main(int ac, char *av[], char **env)
         if (built_in_command(args) == 0)
           execute_command(args, env);
         free(input);
-        while (args[i])
-            free (args[i++]);
-        free (args);            
+        if (args[0] != NULL)
+        {
+            printf("args -----> {%s}\n", args[0]);
+            while (args[i])
+                free (args[i++]);
+            // free (args);            
+        }
     }
 }
 
