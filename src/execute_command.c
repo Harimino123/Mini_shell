@@ -6,7 +6,7 @@
 /*   By: hrasolof <hrasolof@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 16:21:25 by hrasolof          #+#    #+#             */
-/*   Updated: 2024/10/10 18:02:59 by hrasolof         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:49:59 by hrasolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ int execute_command(char **args, char **env)
     pid = fork();
     if (pid == 0)
     {
-        if (execve(find_program_in_path(args[0]), args, env) == -1)
+        if (execve (find_program_in_path(args[0]), args, env) == -1)
         {
-            perror("minishell");
-            exit(EXIT_FAILURE);
+            perror ("minishell");
+            exit (EXIT_FAILURE);
         }
     }
     else if (pid < 0)
     {
-        perror("Fork failed");
+        perror ("Fork failed");
         return (-1);
     }
     else
