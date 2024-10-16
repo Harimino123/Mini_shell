@@ -45,7 +45,7 @@ static size_t   word_count(const char *str)
     return (w_count);
 }
 
-char	**ft_toksplit(const char *str)
+char **ft_toksplit(const char *str)
 {
     size_t  i;
     size_t  j;
@@ -53,6 +53,8 @@ char	**ft_toksplit(const char *str)
     int     k;
     char    **out;
 
+    if (!str)
+        return (NULL);
     w_len = word_count(str);
     out = malloc(sizeof(char *) * (w_len + 1));
     if (!out)
@@ -70,7 +72,12 @@ char	**ft_toksplit(const char *str)
                 i++;
             out[k] = malloc(sizeof(char) * (i - j + 1));
             if (!out[k])
+            {
+                while (k > 0)
+                    free (out[--k]);
+                free (out);
                 return (NULL);
+            }
             ft_strncpy(out[k], &str[j], i - j);
             out[k][i - j] = '\0';
             k++;
@@ -79,4 +86,5 @@ char	**ft_toksplit(const char *str)
     out[k] = NULL;
     return (out);
 }
+
 
