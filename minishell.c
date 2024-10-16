@@ -18,16 +18,14 @@ int main(int ac, char *av[], char **env)
     (void)av;
     char    *input;
     char    **args = NULL;
-    int     i;
 
-    i = 0;
     while (1)
     {
         input = readline("\033[1mMinishell \U0001F60A $\033[0m ");
         if (!input)
             break ;
         if (*input)
-            add_history(input); 
+            add_history(input);
         args = ft_toksplit(input);
         if (built_in_command(args) == 0)
           execute_command(args, env);
