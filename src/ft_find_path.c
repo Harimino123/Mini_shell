@@ -25,6 +25,8 @@ char *find_program_in_path(const char *program)
 {
     t_dir dir_data;
 
+    if (is_executable(program))
+        return ((char *)program);
     dir_data.path_env = getenv("PATH");
     if (!dir_data.path_env)
     {
@@ -40,7 +42,6 @@ char *find_program_in_path(const char *program)
         dir_data.dir = dir_data.dirs[i];
         dir_data.dir_with_slash = ft_strjoin(dir_data.dir, "/");
         dir_data.full_path = ft_strjoin(dir_data.dir_with_slash, program);
-        printf("path -----> %s\n", dir_data.full_path);
         if (is_executable(dir_data.full_path))
             return (dir_data.full_path);
         free(dir_data.full_path);
