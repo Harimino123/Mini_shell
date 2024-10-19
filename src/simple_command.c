@@ -22,12 +22,12 @@ int ft_cd(char **av)
         if (home == NULL)
         {
             printf("minishell : cd : HOME not found");
-            return (1);
+            return (0);
         }
         if (chdir(home) != 0)
         {
             perror("minishell");
-            return (1);
+            return (0);
         }
     }
     else
@@ -35,7 +35,7 @@ int ft_cd(char **av)
         if (chdir(av[1]) != 0)
             perror("minishell");
     }
-    return (0);
+    return (1);
 }
 
 int ft_exit()
