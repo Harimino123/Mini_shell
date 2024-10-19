@@ -14,10 +14,21 @@
 
 int ft_cd(char **av)
 {
+    const char *home;
+
     if (av[1] == NULL)
     {
-        printf("minishell: cd: expected argument\n");
-        return (1);
+        home = getenv("HOME");
+        if (home == NULL)
+        {
+            printf("minishell : cd : HOME not found");
+            return (1);
+        }
+        if (chdir(home) != 0)
+        {
+            perror("minishell");
+            return (1);
+        }
     }
     else
     {
