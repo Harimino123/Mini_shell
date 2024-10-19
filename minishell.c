@@ -28,7 +28,7 @@ int main(int ac, char *av[], char **env)
             add_history(input);
         args = ft_toksplit(input);
         if (built_in_command(args) == 0)
-          execute_command(args, env);
+            execute_command(args, env);
         free(input);
         free_tab(args);
     }

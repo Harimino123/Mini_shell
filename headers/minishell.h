@@ -55,14 +55,14 @@ typedef struct s_dir
 
 int ft_cd(char **av);
 int ft_exit();
-int built_in_command(char **av);
-char	**ft_toksplit(const char *str);
-char *find_program_in_path(const char *program);
-int execute_command(char **args, char **env);
-void free_tab(char **str);
-void free_tab_struct(t_datatok *data);
 int ft_isspace(char c);
 int ft_special_char(char c);
+int built_in_command(char **av);
+int execute_command(char **args, char **env);
+char	**ft_toksplit(const char *str);
+char *find_program_in_path(const char *program);
+void free_tab(char **str);
+void free_tab_struct(t_datatok *data);
 
 
 

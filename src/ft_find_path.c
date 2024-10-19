@@ -46,22 +46,3 @@ char *find_program_in_path(const char *program)
     }
     return (NULL);
 }
-
-
-// int main(int argc, char *argv[])
-// {
-//     if (argc < 2)
-//     {
-//         printf("Usage: %s <program_name>\n", argv[0]);
-//         return (1);
-//     }
-//     char *program_path = find_program_in_path(argv[1]);
-//     if (program_path)
-//     {
-//         printf("Program '%s' found at: %s\n", argv[1], program_path);
-//         free(program_path);
-//     }
-//     else
-//         printf("Program '%s' not found in PATH\n", argv[1]);
-//     return 0;
-// }
