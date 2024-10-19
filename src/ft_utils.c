@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrasolof <hrasolof@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 17:45:04 by hrasolof          #+#    #+#             */
-/*   Updated: 2024/10/19 10:31:23 by hrasolof         ###   ########.fr       */
+/*   Created: 2024/10/19 10:41:41 by hrasolof          #+#    #+#             */
+/*   Updated: 2024/10/19 10:41:53 by hrasolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-void free_tab(char **str)
+int ft_isspace(char c)
 {
-    int i;
-    
-    i = 0;
-    while (str[i])
-    {
-        free (str[i]);
-        i++;
-    }
-    free (str);
+    return (c == ' ' || c == '\t');
 }
 
-void free_tab_struct(t_datatok *data)
+int ft_special_char(char c)
 {
-    while (data->tab_i > 0)
-        free (data->out[--data->index2]);
-    free (data->out);
+    return (c == '>' || c == '<' || c == '|' || c == ' ' || c == '\t' || c == ':');
 }

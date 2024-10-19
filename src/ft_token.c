@@ -12,16 +12,6 @@
 
 #include "../headers/minishell.h"
 
-int ft_isspace(char c)
-{
-    return (c == ' ' || c == '\t');
-}
-
-int ft_special_char(char c)
-{
-    return (c == '>' || c == '<' || c == '|' || c == ' ' || c == '\t' || c == ':');
-}
-
 static size_t   word_count(const char *str)
 {
     size_t  i;
@@ -45,46 +35,53 @@ static size_t   word_count(const char *str)
     return (w_count);
 }
 
+void ft_assigne(t_datatok *data, const char *str)
+{
+    data->w_len = word_count(str);
+    data->out = malloc(sizeof(char *) * (data->w_len + 1));
+    if (!data->out)
+        exit (EXIT_FAILURE);
+    data->index = 0;
+    data->tab_i = 0;
+}
+
+
+int extract_word(t_datatok *data, const char *str)
+{
+    data->index2 = data->index;
+    while (str[data->index] && !ft_isspace(str[data->index]) && !ft_special_char(str[data->index]))
+        data->index++;
+    data->out[data->tab_i] = malloc(sizeof(char) * (data->index - data->index2 + 1));
+    if (!data->out[data->tab_i])
+    {
+        free_tab_struct(data);
+        return (0);
+    }
+    ft_strncpy(data->out[data->tab_i], &str[data->index2], data->index - data->index2);
+    data->out[data->tab_i++][data->index - data->index2] = '\0';
+    return (1);
+}
+
+
 char **ft_toksplit(const char *str)
 {
-    size_t  i;
-    size_t  j;
-    size_t  w_len;
-    int     k;
-    char    **out;
+    t_datatok   data;
 
     if (!str)
         return (NULL);
-    w_len = word_count(str);
-    out = malloc(sizeof(char *) * (w_len + 1));
-    if (!out)
-        return (NULL);
-    i = 0;
-    k = 0;
-    while (str[i])
+    ft_assigne(&data, str);
+    while (str[data.index])
     {
-        while (str[i] && (ft_isspace(str[i]) || ft_special_char(str[i])))
-            i++;
-        if (str[i] && !ft_isspace(str[i]) && !ft_special_char(str[i]))
+        while (str[data.index] && (ft_isspace(str[data.index]) || ft_special_char(str[data.index])))
+            data.index++;
+        if (str[data.index] && !ft_isspace(str[data.index]) && !ft_special_char(str[data.index]))
         {
-            j = i;
-            while (str[i] && !ft_isspace(str[i]) && !ft_special_char(str[i]))
-                i++;
-            out[k] = malloc(sizeof(char) * (i - j + 1));
-            if (!out[k])
-            {
-                while (k > 0)
-                    free (out[--k]);
-                free (out);
-                return (NULL);
-            }
-            ft_strncpy(out[k], &str[j], i - j);
-            out[k][i - j] = '\0';
-            k++;
+        if (!extract_word(&data, str))
+            return (NULL);
         }
     }
-    out[k] = NULL;
-    return (out);
+    data.out[data.tab_i] = NULL;
+    return (data.out);
 }
 
 

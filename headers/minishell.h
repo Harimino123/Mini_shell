@@ -34,6 +34,16 @@
 
 #define TOKEN_BUFFER_SIZE 64
 
+typedef struct  s_datatok
+{
+    int  index;
+    int  index2;
+    int  w_len;
+    int     tab_i;
+    char    **out;
+}   t_datatok;
+
+
 typedef struct s_dir
 {
     char    *path_env;
@@ -50,6 +60,10 @@ char	**ft_toksplit(const char *str);
 char *find_program_in_path(const char *program);
 int execute_command(char **args, char **env);
 void free_tab(char **str);
+void free_tab_struct(t_datatok *data);
+int ft_isspace(char c);
+int ft_special_char(char c);
+
 
 
 #endif

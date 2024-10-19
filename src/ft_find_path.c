@@ -26,7 +26,6 @@ char *find_program_in_path(const char *program)
     t_dir dir_data;
 
     dir_data.path_env = getenv("PATH");
-    // printf("%s\n", dir_data.path_env);
     if (!dir_data.path_env)
     {
         printf("PATH environment variable not found\n");
@@ -35,21 +34,15 @@ char *find_program_in_path(const char *program)
     dir_data.dirs = ft_split(dir_data.path_env, ':');
     if (!dir_data.dirs)
         return (NULL);
-    int i = 0;
-    while (dir_data.dirs[i] != NULL)
+    int i = -1;
+    while (dir_data.dirs[++i] != NULL)
     {
         dir_data.dir = dir_data.dirs[i];
         dir_data.dir_with_slash = ft_strjoin(dir_data.dir, "/");
         dir_data.full_path = ft_strjoin(dir_data.dir_with_slash, program);
         if (is_executable(dir_data.full_path))
-        {
-            while (dir_data.dirs[i])
-                free(dir_data.dirs[i++]);
-            // free(dir_data.dirs);
             return (dir_data.full_path);
-        }
         free(dir_data.full_path);
-        i++;
     }
     return (NULL);
 }
