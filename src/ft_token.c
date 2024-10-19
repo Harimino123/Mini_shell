@@ -45,11 +45,11 @@ void ft_assigne(t_datatok *data, const char *str)
     data->tab_i = 0;
 }
 
-
 int extract_word(t_datatok *data, const char *str)
 {
     data->index2 = data->index;
-    while (str[data->index] && !ft_isspace(str[data->index]) && !ft_special_char(str[data->index]))
+    while (str[data->index] && !ft_isspace(str[data->index]) &&
+     !ft_special_char(str[data->index]))
         data->index++;
     data->out[data->tab_i] = malloc(sizeof(char) * (data->index - data->index2 + 1));
     if (!data->out[data->tab_i])
@@ -62,7 +62,6 @@ int extract_word(t_datatok *data, const char *str)
     return (1);
 }
 
-
 char **ft_toksplit(const char *str)
 {
     t_datatok   data;
@@ -72,12 +71,14 @@ char **ft_toksplit(const char *str)
     ft_assigne(&data, str);
     while (str[data.index])
     {
-        while (str[data.index] && (ft_isspace(str[data.index]) || ft_special_char(str[data.index])))
+        while (str[data.index] && (ft_isspace(str[data.index]) ||
+         ft_special_char(str[data.index])))
             data.index++;
-        if (str[data.index] && !ft_isspace(str[data.index]) && !ft_special_char(str[data.index]))
+        if (str[data.index] && !ft_isspace(str[data.index]) &&
+         !ft_special_char(str[data.index]))
         {
-        if (!extract_word(&data, str))
-            return (NULL);
+            if (!extract_word(&data, str))
+                return (NULL);
         }
     }
     data.out[data.tab_i] = NULL;
