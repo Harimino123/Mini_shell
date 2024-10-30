@@ -12,29 +12,34 @@
 
 #include "headers/minishell.h"
 
-int execute_command(char **args)
-{
-    pid_t pid;
-    int status;
-    char *envp[] = { NULL };
+#include <stdlib.h>
+#include <string.h>
 
-    pid = fork();  // Create a new child process
-    if (pid == 0)  // Child process
+char *remove_quotes(const char *str)
+{
+    size_t len = strlen(str);
+
+    if ((str[0] == '"' && str[len - 1] == '"') || (str[0] == '\'' && str[len - 1] == '\''))
     {
-        // The child process will run the executable
-        if (execve(find_program_in_path(args[0]), args, envp) == -1)
-        {
-            perror("minishell");
-            exit(EXIT_FAILURE);  // Exit child process on failure
-        }
+        char *result = (char *)malloc(len - 1);
+        if (!result)
+            return NULL;
+        strncpy(result, str + 1, len - 2);
+        result[len - 2] = '\0';
+        return result;
     }
-    else if (pid < 0)  // Fork failed
-    {
-        perror("Fork failed");
-        return -1;
-    }
-    else  // Parent process
-        waitpid(pid, &status, 0); // Wait for the child process to finish
+    return strdup(str);
+}
+
+#include <stdio.h>
+
+int main()
+{
+    char *input = "\"test\"";
+    char *output = remove_quotes(input);
+    printf("Result: %s\n", output);
+    free(output); // Free the allocated memory
     return 0;
 }
+
 

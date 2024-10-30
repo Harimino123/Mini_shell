@@ -24,7 +24,8 @@ SRCS = 	minishell.c \
 		src/execute_command.c \
 		src/ft_find_path.c \
 		src/ft_free.c \
-		src/ft_utils.c
+		src/ft_utils.c \
+		ft_remove_quote.c
 
 LIBFT_PATH = Libft
 LIBFT = $(LIBFT_PATH)/libft.a

@@ -63,7 +63,7 @@ char	**ft_toksplit(const char *str);
 char *find_program_in_path(const char *program);
 void free_tab(char **str);
 void free_tab_struct(t_datatok *data);
-
+void ft_remove_quote(char   **args);
 
 
 #endif

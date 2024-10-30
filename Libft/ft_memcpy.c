@@ -22,8 +22,6 @@ void	*ft_memcpy(void *str1, const void *str2, size_t numBytes)
 	char_str1 = (unsigned char *)str1;
 	char_str2 = (unsigned char *)str2;
 	while (numBytes--)
-	{
 		*char_str1++ = *char_str2++;
-	}
 	return (str1);
 }
