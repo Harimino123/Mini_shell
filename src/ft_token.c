@@ -58,10 +58,10 @@ int extract_word(t_datatok *data, const char *str)
     if (in_quotes)
         data->index++;
     data->index2 = data->index;
-    while (str[data->index] &&
-          ((in_quotes && ((in_quotes == 1 && str[data->index] != '"') ||
-                          (in_quotes == 2 && str[data->index] != '\''))) ||
-           (!in_quotes && !ft_isspace(str[data->index]) && !ft_special_char(str[data->index]))))
+    while (str[data->index] && ((in_quotes && 
+    ((in_quotes == 1 && str[data->index] != '"') || 
+    (in_quotes == 2 && str[data->index] != '\''))) || 
+    (!in_quotes && !ft_isspace(str[data->index]) && !ft_special_char(str[data->index]))))
         data->index++;
     len = data->index - data->index2;
     data->out[data->tab_i] = malloc(sizeof(char) * (len + 1));
