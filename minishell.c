@@ -27,10 +27,6 @@ int main(int ac, char *av[], char **env)
         if (*input)
             add_history(input);
         args = ft_toksplit(input);
-        int i = 0;
-        while (args[i])
-            printf("<%s>\n", args[i++]);
-        ft_remove_quote(args);
         if (!built_in_command(args))
             execute_command(args, env);
         free(input);
