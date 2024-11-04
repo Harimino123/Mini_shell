@@ -13,11 +13,16 @@
 #include "headers/minishell.h"
 
 int main(int ac, char *av[], char **env)
-{
+{   
     (void)ac;
     (void)av;
     char    *input;
     char    **args = NULL;
+    t_env   *envp = NULL;
+    (void)envp;
+
+    /*store the entire env in a linked list to manipulate it more easily*/
+    envp = create_linked_list(env);
 
     while (1)
     {
@@ -27,11 +32,9 @@ int main(int ac, char *av[], char **env)
         if (*input)
             add_history(input);
         args = ft_toksplit(input);
-        if (!built_in_command(args))
+        if (!built_in_command(args, envp))
             execute_command(args, env);
         free(input);
         free_tab(args);
     }
 }
-
-
