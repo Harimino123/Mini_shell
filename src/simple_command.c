@@ -45,8 +45,6 @@ int ft_exit()
     return (0);
 }
 
-
-
 /*function to print env because env change with export*/
 int print_env(t_env *head)
 {

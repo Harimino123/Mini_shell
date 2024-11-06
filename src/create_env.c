@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herrakot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hrasolof <hrasolof@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:46:03 by herrakot          #+#    #+#             */
-/*   Updated: 2024/11/04 15:50:23 by herrakot         ###   ########.fr       */
+/*   Updated: 2024/11/06 18:00:03 by hrasolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void add_node_end(t_env **head, const char *str)
 
 t_env *create_linked_list(char **str)
 {
-    t_env *head = NULL; 
+    t_env *head = NULL;
     t_env *tail = NULL;
     t_env *new_node = NULL;
 
@@ -58,7 +58,7 @@ t_env *create_linked_list(char **str)
         new_node = create_node(*str++);
         if (!new_node) 
             return (NULL);
-        if (!head) 
+        if (!head)
             head = new_node;
         else 
             tail->next = new_node;

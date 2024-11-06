@@ -52,9 +52,12 @@ typedef struct s_dir
     char    *full_path;
     char    **dirs;
 }   t_dir;
+
 typedef struct s_env
 {
-    char *str;
+    char *str; //Will change it to "var_name" later and will contain only name variable.
+    //char *sep; Purpose on my mind is that this variable will contain only the first "=" we encouter.
+    //char *content; will use those later, just setting random variable for now.
     struct s_env *next;
 }   t_env;
 

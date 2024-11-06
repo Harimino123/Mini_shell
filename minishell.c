@@ -23,6 +23,12 @@ int main(int ac, char *av[], char **env)
 
     /*store the entire env in a linked list to manipulate it more easily*/
     envp = create_linked_list(env);
+    /* IDEA = 1st create a function that check the position of the 1st "="
+    then store the value before it to "var_name" in the struct and the 
+    "=" in the "sep" and finally store the remaining in the "content" 
+    variable. "Next" will point to the next node of course. In this way, 
+    i think it will more easy to create and change variable env and to 
+    delete it*/
 
     while (1)
     {
