@@ -85,7 +85,8 @@ void export_variable(t_env **env_list, char *var_name, char *content)
     }
     // If not found, add a new variable
     t_env *new_var = create_env_node(var_name, content);
-    if (new_var) append_env_node(env_list, new_var);
+    if (new_var)
+        append_env_node(env_list, new_var);
 }
 
 // Function to handle the "unset" command
