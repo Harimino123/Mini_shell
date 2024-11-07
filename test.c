@@ -15,123 +15,127 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
-// typedef struct s_datatok {
-//     size_t w_len;
-//     size_t index;
-//     size_t index2;
-//     size_t tab_i;
-//     char **out;
-// } t_datatok;
+// Define the environment variable struct
+typedef struct s_env {
+    char *var_name;
+    char *sep;
+    char *content;
+    struct s_env *next;
+} t_env;
 
-static size_t word_count(const char *str)
+// Helper function to create a new environment variable node
+t_env *create_env_node(char *var_name, char *content)
 {
-    size_t i;
-    size_t w_count;
-
-    i = 0;
-    w_count = 0;
-    while (str[i])
-    {
-        while (str[i] && ft_isspace(str[i]))
-            i++;
-        if (str[i] && !ft_special_char(str[i]))
-        {
-            w_count++;
-            while (str[i] && !ft_special_char(str[i]))
-                i++;
-        }
-        while (str[i] && ft_special_char(str[i]))
-            i++;
-    }
-    return (w_count);
-}
-
-void ft_assigne(t_datatok *data, const char *str)
-{
-    data->w_len = word_count(str);
-    data->out = malloc(sizeof(char *) * (data->w_len + 1));
-    if (!data->out)
-        exit (EXIT_FAILURE);
-    data->index = 0;
-    data->tab_i = 0;
-}
-
-int extract_word(t_datatok *data, const char *str)
-{
-    int in_quotes = 0;
-
-    if (str[data->index] == '"')
-        in_quotes = 1;
-    else if (str[data->index] == '\'')
-        in_quotes = 2;
-
-    if (in_quotes)
-        data->index++;  // Skip opening quote
-
-    data->index2 = data->index;
-
-    while (str[data->index] &&
-          ((in_quotes && ((in_quotes == 1 && str[data->index] != '"') ||
-                          (in_quotes == 2 && str[data->index] != '\''))) ||
-           (!in_quotes && !ft_isspace(str[data->index]) && !ft_special_char(str[data->index]))))
-    {
-        data->index++;
-    }
-
-    size_t len = data->index - data->index2;
-    data->out[data->tab_i] = malloc(sizeof(char) * (len + 1));
-    if (!data->out[data->tab_i])
-    {
-        free_tab_struct(data);
-        return (0);
-    }
-    ft_strncpy(data->out[data->tab_i], &str[data->index2], len);
-    data->out[data->tab_i++][len] = '\0';
-
-    if (in_quotes && (str[data->index] == '"' || str[data->index] == '\''))
-        data->index++;  // Skip closing quote
-
-    return (1);
-}
-
-char **ft_toksplit(const char *str)
-{
-    t_datatok data;
-
-    if (!str)
+    t_env *new_node = (t_env *)malloc(sizeof(t_env));
+    if (!new_node)
         return (NULL);
-    ft_assigne(&data, str);
-    while (str[data.index])
+    new_node->var_name = strdup(var_name);
+    new_node->sep = strdup("=");
+    // Handle content allocation
+    if (content != NULL)
+        new_node->content = strdup(content);
+    else
+        new_node->content = NULL;
+    new_node->next = NULL;
+    return (new_node);
+}
+
+// Helper function to append a node to the environment list
+void append_env_node(t_env **env_list, t_env *new_node)
+{
+    if (!*env_list)
+        *env_list = new_node;
+    else
     {
-        while (str[data.index] && (ft_isspace(str[data.index]) || ft_special_char(str[data.index])))
-            data.index++;
-        if (str[data.index] && !ft_isspace(str[data.index]) && !ft_special_char(str[data.index]))
+        t_env *current = *env_list;
+        while (current->next) current = current->next;
+        current->next = new_node;
+    }
+}
+
+// Function to print all environment variables
+void print_env(t_env *env_list)
+{
+    t_env *current = env_list;
+    while (current)
+    {
+        if (current->content != NULL)
+            printf("%s%s%s\n", current->var_name, current->sep, current->content);
+        else
+            printf("%s%s\n", current->var_name, current->sep);
+        current = current->next;
+    }
+}
+
+// Function to handle the "export" command
+void export_variable(t_env **env_list, char *var_name, char *content)
+{
+    t_env *current = *env_list;
+    // Check if the variable already exists and update it
+    while (current)
+    {
+        if (strcmp(current->var_name, var_name) == 0)
         {
-            if (!extract_word(&data, str))
-                return (NULL);
+            free(current->content);
+            current->content = content ? strdup(content) : NULL;
+            return;
+        }
+        current = current->next;
+    }
+    // If not found, add a new variable
+    t_env *new_var = create_env_node(var_name, content);
+    if (new_var) append_env_node(env_list, new_var);
+}
+
+// Function to handle the "unset" command
+void unset_variable(t_env **env_list, char *var_name)
+{
+    t_env *current = *env_list;
+    t_env *prev = NULL;
+    // Find the variable in the list
+    while (current)
+    {
+        if (strcmp(current->var_name, var_name) == 0)
+        {
+            // Remove the node
+            if (prev)
+                prev->next = current->next;
+            else
+                *env_list = current->next;
+            // Free memory
+            free(current->var_name);
+            free(current->sep);
+            free(current->content);
+            free(current);
+            return ;
+        }
+        prev = current;
+        current = current->next;
+    }
+}
+
+// Function to initialize the environment list with a sample variable (optional)
+t_env *init_env(char **envp)
+{
+    t_env *env_list = NULL;
+    int i = -1;
+    while (envp[++i])
+    {
+        char *equal_sign = strchr(envp[i], '=');
+        if (equal_sign)
+        {
+            char *var_name = strndup(envp[i], equal_sign - envp[i]);
+            char *content = strdup(equal_sign + 1);
+            t_env *new_var = create_env_node(var_name, content);
+            append_env_node(&env_list, new_var);
+            free(var_name);
+            free(content);
         }
     }
-    data.out[data.tab_i] = NULL;
-    return (data.out);
+    return (env_list);
 }
 
-
-// Example of usage
-int main() {
-    char input[] = "echo \"Hello World\" | grep 'World' > output.txt";
-    char **tokens = ft_toksplit(input);
-
-    // Print tokens for verification
-    for (int i = 0; tokens[i] != NULL; i++) {
-        printf("Token %d: %s\n", i, tokens[i]);
-        free(tokens[i]);  // Free each token after printing
-    }
-    free(tokens);  // Free the array of tokens
-
-    return 0;
-}
 
 
 
