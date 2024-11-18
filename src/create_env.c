@@ -6,64 +6,57 @@
 /*   By: hrasolof <hrasolof@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 15:46:03 by herrakot          #+#    #+#             */
-/*   Updated: 2024/11/06 18:00:03 by hrasolof         ###   ########.fr       */
+/*   Updated: 2024/11/18 09:14:57 by hrasolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../headers/minishell.h"
 
-t_env *create_node(const char *string) 
+t_env *create_env_node(char *var_name, char *content)
 {
-    t_env *node = NULL;
-
-    node = malloc(sizeof(t_env));
-    if (node) 
-    {
-        node->str = ft_strdup(string);
-        node->next = NULL;
-    }
-    return node;
-}
-
-void add_node_end(t_env **head, const char *str)
-{
-    t_env *new_node = NULL;
-    t_env *current  = NULL;
-
-    new_node = malloc(sizeof(t_env));
-    new_node->str = strdup(str);
+    t_env *new_node = (t_env *)malloc(sizeof(t_env));
+    if (!new_node)
+        return (NULL);
+    new_node->var_name = strdup(var_name);
+    new_node->sep = strdup("=");
+    // Handle content allocation
+    if (content != NULL)
+        new_node->content = strdup(content);
+    else
+        new_node->content = NULL;
     new_node->next = NULL;
-
-    if (*head == NULL) 
-    {
-        *head = new_node;
-        return;
-    }
-
-    current  = *head;
-    while (current->next)
-        current = current->next;
-    current->next = new_node;
+    return (new_node);
 }
 
-t_env *create_linked_list(char **str)
+void append_env_node(t_env **env_list, t_env *new_node)
 {
-    t_env *head = NULL;
-    t_env *tail = NULL;
-    t_env *new_node = NULL;
-
-    while (*str) 
+    if (!*env_list)
+        *env_list = new_node;
+    else
     {
-        new_node = create_node(*str++);
-        if (!new_node) 
-            return (NULL);
-        if (!head)
-            head = new_node;
-        else 
-            tail->next = new_node;
-        tail = new_node;
+        t_env *current = *env_list;
+        while (current->next) current = current->next;
+        current->next = new_node;
     }
-    return (head);
 }
 
+t_env *create_linked_list(char **envp)
+{
+    t_env *env_list = NULL;
+    int i = -1;
+    while (envp[++i])
+    {
+        char *equal_sign = strchr(envp[i], '=');
+        if (equal_sign)
+        {
+            char *var_name = strndup(envp[i], equal_sign - envp[i]);
+            char *content = strdup(equal_sign + 1);
+            t_env *new_var = create_env_node(var_name, content);
+            append_env_node(&env_list, new_var);
+            free(var_name);
+            free(content);
+        }
+    }
+    return (env_list);
+}

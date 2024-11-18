@@ -46,28 +46,38 @@ int ft_exit()
 }
 
 /*function to print env because env change with export*/
-int print_env(t_env *head)
+void print_env(t_env *head)
 {
-    printf("THE ENV FUNCTION WORKED\n");
-    while (head)
+    t_env *current = head;
+    while (current != NULL)
     {
-        printf("%s\n", head->str);
-        head = head->next;
+        printf("%s%s%s\n", current->var_name, current->sep, current->content);
+        current = current->next;
     }
-    return (1);
 }
 
 
 
 /*need the solve by ASCII and the replace function 
 for example if there is TEST=1 and we do export TEST=42 we simple replace TEST(need to make unset work first) */
-int ft_export(char **av, t_env **head)
+void export_variable(t_env **env_list, char *var_name, char *content)
 {
-    if (av[1])
-        add_node_end(head, av[1]);
-    else
-        print_env(*head); // I still need to find a way to show it solved in ASCII way.
-    return (1);
+    t_env *current = *env_list;
+    // Check if the variable already exists and update it
+    while (current)
+    {
+        if (strcmp(current->var_name, var_name) == 0)
+        {
+            free(current->content);
+            current->content = content ? strdup(content) : NULL;
+            return;
+        }
+        current = current->next;
+    }
+    // If not found, add a new variable
+    t_env *new_var = create_env_node(var_name, content);
+    if (new_var)
+        append_env_node(env_list, new_var);
 }
 
 
@@ -75,26 +85,30 @@ int ft_export(char **av, t_env **head)
 /* Still need to be fixed so dont touch yet */
 /*supposed to remove but is not*/
 
-int unset_env(t_env **head, char *str_to_remove)
+void unset_variable(t_env **env_list, char *var_name)
 {
-    t_env *current = NULL;
-
-    current = *head;
-
-    // Traverse the list to find the node to remove
-    while (current != NULL)
+    t_env *current = *env_list;
+    t_env *prev = NULL;
+    // Find the variable in the list
+    while (current)
     {
-        if (ft_search_until_egal(str_to_remove, current->str) == 0)
+        if (strcmp(current->var_name, var_name) == 0)
         {
-            *head = current->next;
-            print_env(*head);
-            return (1);            // Exit the function after removing the node
+            // Remove the node
+            if (prev)
+                prev->next = current->next;
+            else
+                *env_list = current->next;
+            // Free memory
+            free(current->var_name);
+            free(current->sep);
+            free(current->content);
+            free(current);
+            return ;
         }
-        else
-            current = *head;
-    current = current->next;
+        prev = current;
+        current = current->next;
     }
-    return (1);
 }
 
 /* Still need to be fixed so dont touch yet */
