@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/*DON"T FORGET THAT FUCKING HEADER XD IT'S NOT THE AUTHORIZED FORMAT*\
+
 #include "../headers/minishell.h"
 
 int ft_isspace(char c)
