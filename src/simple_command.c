@@ -46,14 +46,16 @@ int ft_exit()
 }
 
 /*function to print env because env change with export*/
-void print_env(t_env *head)
+int print_env(t_env *head)
 {
     t_env *current = head;
     while (current != NULL)
     {
         printf("%s%s%s\n", current->var_name, current->sep, current->content);
+        // printf("<TEST>\n");
         current = current->next;
     }
+    return (1);
 }
 
 

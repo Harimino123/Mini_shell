@@ -23,7 +23,7 @@ int built_in_command(char **av,t_env *head)
     // else if (ft_strcmp(av[0], "export") == 0)
     //     export_variable(av, &head);
     else if (ft_strcmp(av[0], "env") == 0)
-        print_env(head);
+        return (print_env(head));
     else if (ft_strcmp(av[0], "unset") == 0)
         unset_variable(&head, av[1]);
     return (0);

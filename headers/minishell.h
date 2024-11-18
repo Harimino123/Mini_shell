@@ -75,7 +75,7 @@ void free_tab(char **str);
 void free_tab_struct(t_datatok *data);
 t_env *create_env_node(char *var_name, char *content);
 t_env *create_linked_list(char **str);
-void print_env(t_env *head);
+int print_env(t_env *head);
 void append_env_node(t_env **env_list, t_env *new_node);
 void export_variable(t_env **env_list, char *var_name, char *content);
 void unset_variable(t_env **env_list, char *var_name);
