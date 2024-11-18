@@ -45,7 +45,7 @@ int ft_exit()
     return (0);
 }
 
-/*function to print env because env change with export*/
+/*work as expected but need more test*/
 int print_env(t_env *head)
 {
     t_env *current = head;
@@ -60,8 +60,8 @@ int print_env(t_env *head)
 
 
 
-/*need the solve by ASCII and the replace function 
-for example if there is TEST=1 and we do export TEST=42 we simple replace TEST(need to make unset work first) */
+/*this function work as expected but need more test to see 
+if there is some issue somewhere*/
 int export_variable(t_env **env_list, char *var_name, char *content)
 {
     t_env *current = *env_list;
@@ -90,11 +90,9 @@ int export_variable(t_env **env_list, char *var_name, char *content)
 }
 
 
-
-
-/* Still need to be fixed so dont touch yet */
-/*supposed to remove but is not*/
-
+/*it remove the variable but need to figure out where is the leaks,
+we need to implement a logic to handle case where the variable is not
+found instead of returning only (0)*/
 int unset_variable(t_env **env_list, char *var_name)
 {
     t_env *current = *env_list;

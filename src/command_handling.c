@@ -20,7 +20,7 @@ int built_in_command(char **av,t_env *head)
         return (ft_cd(av));
     else if (ft_strcmp(av[0], "exit") == 0)
         return (ft_exit(av));
-    else if (ft_strcmp(av[0], "export") == 0)
+    else if (ft_strcmp(av[0], "export") == 0)//this part is too long but it will not work without all of this things
     {
         if (av[1])
         {
