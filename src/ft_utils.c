@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: herrakot <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hrasolof <hrasolof@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 10:41:41 by hrasolof          #+#    #+#             */
-/*   Updated: 2024/11/04 15:43:35 by herrakot         ###   ########.fr       */
+/*   Updated: 2024/11/18 11:51:21 by hrasolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*DON"T FORGET THAT FUCKING HEADER XD IT'S NOT THE AUTHORIZED FORMAT*\
 
 #include "../headers/minishell.h"
 
