@@ -137,39 +137,39 @@ t_env *init_env(char **envp)
     return (env_list);
 }
 
-// int main(int argc, char **argv, char **envp) {
-//     t_env *env_list = init_env(envp);
+int main(int argc, char **argv, char **envp) {
+    t_env *env_list = init_env(envp);
 
-//     // Testing "env" command
-//     printf("Environment variables:\n");
-//     print_env(env_list);
+    // Testing "env" command
+    printf("Environment variables:\n");
+    print_env(env_list);
 
-//     // Testing "export" command
-//     printf("\nExporting new_var=hello_world\n");
-//     export_variable(&env_list, "new_var", "hello_world");
-//     print_env(env_list);
+    // Testing "export" command
+    printf("\nExporting new_var=hello_world\n");
+    export_variable(&env_list, "new_var", "hello_world");
+    print_env(env_list);
 
-//     printf("\nUpdating new_var=updated_value\n");
-//     export_variable(&env_list, "new_var", "updated_value");
-//     print_env(env_list);
+    printf("\nUpdating new_var=updated_value\n");
+    export_variable(&env_list, "new_var", "updated_value");
+    print_env(env_list);
 
-//     // Testing "unset" command
-//     printf("\nUnsetting new_var\n");
-//     unset_variable(&env_list, "new_var");
-//     print_env(env_list);
+    // Testing "unset" command
+    printf("\nUnsetting new_var\n");
+    unset_variable(&env_list, "new_var");
+    print_env(env_list);
 
-//     // Free remaining environment list
-//     while (env_list) {
-//         t_env *temp = env_list;
-//         env_list = env_list->next;
-//         free(temp->var_name);
-//         free(temp->sep);
-//         free(temp->content);
-//         free(temp);
-//     }
+    // Free remaining environment list
+    while (env_list) {
+        t_env *temp = env_list;
+        env_list = env_list->next;
+        free(temp->var_name);
+        free(temp->sep);
+        free(temp->content);
+        free(temp);
+    }
 
-//     return 0;
-// }
+    return 0;
+}
 
 
 

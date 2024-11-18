@@ -62,9 +62,10 @@ int print_env(t_env *head)
 
 /*need the solve by ASCII and the replace function 
 for example if there is TEST=1 and we do export TEST=42 we simple replace TEST(need to make unset work first) */
-void export_variable(t_env **env_list, char *var_name, char *content)
+int export_variable(t_env **env_list, char *var_name, char *content)
 {
     t_env *current = *env_list;
+
     // Check if the variable already exists and update it
     while (current)
     {
@@ -72,25 +73,33 @@ void export_variable(t_env **env_list, char *var_name, char *content)
         {
             free(current->content);
             current->content = content ? strdup(content) : NULL;
-            return;
+            if (content && !current->content) // strdup failed
+                return (0);
+            return (1); // Successfully updated
         }
         current = current->next;
     }
     // If not found, add a new variable
     t_env *new_var = create_env_node(var_name, content);
     if (new_var)
+    {
         append_env_node(env_list, new_var);
+        return (1); // Successfully added
+    }
+    return (0); // Memory allocation failed
 }
+
 
 
 
 /* Still need to be fixed so dont touch yet */
 /*supposed to remove but is not*/
 
-void unset_variable(t_env **env_list, char *var_name)
+int unset_variable(t_env **env_list, char *var_name)
 {
     t_env *current = *env_list;
     t_env *prev = NULL;
+
     // Find the variable in the list
     while (current)
     {
@@ -106,11 +115,13 @@ void unset_variable(t_env **env_list, char *var_name)
             free(current->sep);
             free(current->content);
             free(current);
-            return ;
+            return (1); // Successfully removed
         }
         prev = current;
         current = current->next;
     }
+    return (0); // Variable not found
 }
+
 
 /* Still need to be fixed so dont touch yet */

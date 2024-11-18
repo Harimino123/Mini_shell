@@ -64,7 +64,6 @@ typedef struct s_env
 
 int ft_cd(char **av);
 int ft_exit();
-int ft_export(char **av, t_env **head);
 int ft_isspace(char c);
 int ft_special_char(char c);
 int built_in_command(char **av, t_env *head);
@@ -77,8 +76,8 @@ t_env *create_env_node(char *var_name, char *content);
 t_env *create_linked_list(char **str);
 int print_env(t_env *head);
 void append_env_node(t_env **env_list, t_env *new_node);
-void export_variable(t_env **env_list, char *var_name, char *content);
-void unset_variable(t_env **env_list, char *var_name);
+int export_variable(t_env **env_list, char *var_name, char *content);
+int unset_variable(t_env **env_list, char *var_name);
 void free_tab(char **str);
 void free_tab_struct(t_datatok *data);
 void ft_remove_quote(char   **args);
