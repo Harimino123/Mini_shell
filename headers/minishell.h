@@ -34,6 +34,7 @@
 
 #define TOKEN_BUFFER_SIZE 64
 
+/*struct for token function*/
 typedef struct  s_datatok
 {
     int  index;
@@ -43,7 +44,7 @@ typedef struct  s_datatok
     char    **out;
 }   t_datatok;
 
-
+/*struct for path function*/
 typedef struct s_dir
 {
     char    *path_env;

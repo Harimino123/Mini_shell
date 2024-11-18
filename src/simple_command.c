@@ -52,7 +52,6 @@ int print_env(t_env *head)
     while (current != NULL)
     {
         printf("%s%s%s\n", current->var_name, current->sep, current->content);
-        // printf("<TEST>\n");
         current = current->next;
     }
     return (1);
@@ -66,27 +65,25 @@ int export_variable(t_env **env_list, char *var_name, char *content)
 {
     t_env *current = *env_list;
 
-    // Check if the variable already exists and update it
     while (current)
     {
         if (strcmp(current->var_name, var_name) == 0)
         {
             free(current->content);
             current->content = content ? strdup(content) : NULL;
-            if (content && !current->content) // strdup failed
+            if (content && !current->content)
                 return (0);
-            return (1); // Successfully updated
+            return (1);
         }
         current = current->next;
     }
-    // If not found, add a new variable
     t_env *new_var = create_env_node(var_name, content);
     if (new_var)
     {
         append_env_node(env_list, new_var);
-        return (1); // Successfully added
+        return (1);
     }
-    return (0); // Memory allocation failed
+    return (0);
 }
 
 
@@ -98,28 +95,22 @@ int unset_variable(t_env **env_list, char *var_name)
     t_env *current = *env_list;
     t_env *prev = NULL;
 
-    // Find the variable in the list
     while (current)
     {
         if (strcmp(current->var_name, var_name) == 0)
         {
-            // Remove the node
             if (prev)
                 prev->next = current->next;
             else
                 *env_list = current->next;
-            // Free memory
             free(current->var_name);
             free(current->sep);
             free(current->content);
             free(current);
-            return (1); // Successfully removed
+            return (1);
         }
         prev = current;
         current = current->next;
     }
-    return (0); // Variable not found
+    return (0);
 }
-
-
-/* Still need to be fixed so dont touch yet */
