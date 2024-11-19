@@ -48,10 +48,18 @@ int ft_exit()
 /*work as expected but need more test*/
 int print_env(t_env *head)
 {
-    t_env *current = head;
+    t_env *current;
+
+    current = head;
     while (current != NULL)
     {
-        printf("%s%s%s\n", current->var_name, current->sep, current->content);
+        printf("%s", current->var_name);
+        if (current->content)
+        {
+            printf("%s", current->sep);
+            printf("%s", current->content);
+        }
+        printf("\n");
         current = current->next;
     }
     return (1);

@@ -39,7 +39,9 @@ int built_in_command(char **av,t_env *head)
                 content = NULL;
             }
             return (export_variable(&head, var_name, content));
-        }   
+        }
+        else
+            return(print_env(head));
     }
     else if (ft_strcmp(av[0], "env") == 0)
         return (print_env(head));
