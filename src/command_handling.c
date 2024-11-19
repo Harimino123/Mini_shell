@@ -24,6 +24,8 @@ int built_in_command(char **av,t_env *head)
     {
         if (av[1])
         {
+            if (ft_isdigit(av[1][0]))
+                return (0);
             char *equal_sign = strchr(av[1], '=');
             char *var_name = NULL;
             char *content = NULL;
