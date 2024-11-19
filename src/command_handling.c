@@ -24,6 +24,7 @@ int built_in_command(char **av,t_env *head)
     {
         if (av[1])
         {
+            /*export variable cannot start with a number*/
             if (ft_isdigit(av[1][0]))
                 return (0);
             char *equal_sign = strchr(av[1], '=');

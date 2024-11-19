@@ -97,7 +97,7 @@ char **ft_toksplit(const char *str)
         }
     }
     data.out[data.tab_i] = NULL;
-    return (data.out);
+    return (data.out); 
 }
 
 

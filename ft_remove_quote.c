@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_remove_quote.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrasolof <hrasolof@student.42antananari    +#+  +:+       +#+        */
+/*   By: herrakot <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 17:54:21 by hrasolof          #+#    #+#             */
-/*   Updated: 2024/10/30 18:17:11 by hrasolof         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:44:00 by herrakot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ void ft_remove_quote(char   **args)
             printf("<%s>\n", args[i]);
         }
         i++;
-    }    
+    }   
 }
