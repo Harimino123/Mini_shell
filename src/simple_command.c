@@ -53,13 +53,15 @@ int print_env(t_env *head)
     current = head;
     while (current != NULL)
     {
-        printf("%s", current->var_name);
+        if (current->content && current->sep)
+            printf("%s", current->var_name);
         if (current->content)
         {
             printf("%s", current->sep);
             printf("%s", current->content);
         }
-        printf("\n");
+        if (current->content && current->sep)
+            printf("\n");
         current = current->next;
     }
     return (1);
