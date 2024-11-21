@@ -67,6 +67,28 @@ int print_env(t_env *head)
     return (1);
 }
 
+int print_env_export(t_env *head)
+{
+    t_env *current;
+
+    current = head;
+    while (current != NULL)
+    {
+        printf("declare -x  ");
+        if (current->content && current->sep)
+            printf("%s", current->var_name);
+        if (current->content)
+        {
+            printf("%s", current->sep);
+            printf("%s", current->content);
+        }
+        if (current->content && current->sep)
+            printf("\n");
+        current = current->next;
+    }
+    return (1);
+}
+
 
 
 /*this function work as expected but need more test to see 
