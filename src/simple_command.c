@@ -67,6 +67,9 @@ int print_env(t_env *head)
     return (1);
 }
 
+/*This is the print function for export. Currently, it only duplicate
+print_env function with minor adjustment but if there is other way to
+use one function instead of duplicating it, then that will be good*/
 int print_env_export(t_env *head)
 {
     t_env *current;
@@ -74,7 +77,7 @@ int print_env_export(t_env *head)
     current = head;
     while (current != NULL)
     {
-        printf("declare -x  ");
+        printf("declare -x  ");//this is the only additionnal things.
         if (current->content && current->sep)
             printf("%s", current->var_name);
         if (current->content)
