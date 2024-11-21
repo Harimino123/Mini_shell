@@ -10,166 +10,50 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "headers/minishell.h"
-
-#include <stdio.h>
+// C program to illustrate 
+// pipe system call in C 
+#include <stdio.h> 
+#include <unistd.h>
 #include <stdlib.h>
-#include <string.h>
+#include <sys/wait.h>
+#define MSGSIZE 16 
+char* msg1 = "hello, world #1"; 
+char* msg2 = "hello, world #2"; 
+char* msg3 = "hello, world #3"; 
 
-// Define the environment variable struct
-typedef struct s_env {
-    char *var_name;
-    char *sep;
-    char *content;
-    struct s_env *next;
-} t_env;
-
-// Helper function to create a new environment variable node
-t_env *create_env_node(char *var_name, char *content)
-{
-    t_env *new_node = (t_env *)malloc(sizeof(t_env));
-    if (!new_node)
-        return (NULL);
-    new_node->var_name = strdup(var_name);
-    new_node->sep = strdup("=");
-    // Handle content allocation
-    if (content != NULL)
-        new_node->content = strdup(content);
-    else
-        new_node->content = NULL;
-    new_node->next = NULL;
-    return (new_node);
+int main() 
+{ 
+    char inbuf[MSGSIZE]; 
+    int p[2], pid, nbytes; 
+  
+    if (pipe(p) < 0) 
+        exit(1); 
+  
+    /* continued */
+    if ((pid = fork()) > 0) { 
+        write(p[1], msg1, MSGSIZE); 
+        write(p[1], msg2, MSGSIZE); 
+        write(p[1], msg3, MSGSIZE); 
+  
+        // Adding this line will 
+        // not hang the program 
+        // close(p[1]); 
+        wait(NULL); 
+    } 
+  
+    else { 
+        // Adding this line will 
+        // not hang the program 
+        // close(p[1]); 
+        while ((nbytes = read(p[0], inbuf, MSGSIZE)) > 0) 
+            printf("%s\n", inbuf); 
+        if (nbytes != 0) 
+            exit(2); 
+        printf("Finished reading\n"); 
+    } 
+    return 0; 
 }
 
-// Helper function to append a node to the environment list
-void append_env_node(t_env **env_list, t_env *new_node)
-{
-    if (!*env_list)
-        *env_list = new_node;
-    else
-    {
-        t_env *current = *env_list;
-        while (current->next) current = current->next;
-        current->next = new_node;
-    }
-}
-
-// Function to print all environment variables
-void print_env(t_env *env_list)
-{
-    t_env *current = env_list;
-    while (current)
-    {
-        if (current->content != NULL)
-            printf("%s%s%s\n", current->var_name, current->sep, current->content);
-        else
-            printf("%s%s\n", current->var_name, current->sep);
-        current = current->next;
-    }
-}
-
-// Function to handle the "export" command
-void export_variable(t_env **env_list, char *var_name, char *content)
-{
-    t_env *current = *env_list;
-    // Check if the variable already exists and update it
-    while (current)
-    {
-        if (strcmp(current->var_name, var_name) == 0)
-        {
-            free(current->content);
-            current->content = content ? strdup(content) : NULL;
-            return;
-        }
-        current = current->next;
-    }
-    // If not found, add a new variable
-    t_env *new_var = create_env_node(var_name, content);
-    if (new_var)
-        append_env_node(env_list, new_var);
-}
-
-// Function to handle the "unset" command
-void unset_variable(t_env **env_list, char *var_name)
-{
-    t_env *current = *env_list;
-    t_env *prev = NULL;
-    // Find the variable in the list
-    while (current)
-    {
-        if (strcmp(current->var_name, var_name) == 0)
-        {
-            // Remove the node
-            if (prev)
-                prev->next = current->next;
-            else
-                *env_list = current->next;
-            // Free memory
-            free(current->var_name);
-            free(current->sep);
-            free(current->content);
-            free(current);
-            return ;
-        }
-        prev = current;
-        current = current->next;
-    }
-}
-
-// Function to initialize the environment list with a sample variable (optional)
-t_env *init_env(char **envp)
-{
-    t_env *env_list = NULL;
-    int i = -1;
-    while (envp[++i])
-    {
-        char *equal_sign = strchr(envp[i], '=');
-        if (equal_sign)
-        {
-            char *var_name = strndup(envp[i], equal_sign - envp[i]);
-            char *content = strdup(equal_sign + 1);
-            t_env *new_var = create_env_node(var_name, content);
-            append_env_node(&env_list, new_var);
-            free(var_name);
-            free(content);
-        }
-    }
-    return (env_list);
-}
-
-int main(int argc, char **argv, char **envp) {
-    t_env *env_list = init_env(envp);
-
-    // Testing "env" command
-    printf("Environment variables:\n");
-    print_env(env_list);
-
-    // Testing "export" command
-    printf("\nExporting new_var=hello_world\n");
-    export_variable(&env_list, "new_var", "hello_world");
-    print_env(env_list);
-
-    printf("\nUpdating new_var=updated_value\n");
-    export_variable(&env_list, "new_var", "updated_value");
-    print_env(env_list);
-
-    // Testing "unset" command
-    printf("\nUnsetting new_var\n");
-    unset_variable(&env_list, "new_var");
-    print_env(env_list);
-
-    // Free remaining environment list
-    while (env_list) {
-        t_env *temp = env_list;
-        env_list = env_list->next;
-        free(temp->var_name);
-        free(temp->sep);
-        free(temp->content);
-        free(temp);
-    }
-
-    return 0;
-}
 
 
 
