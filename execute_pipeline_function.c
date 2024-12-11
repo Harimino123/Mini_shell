@@ -1,7 +1,17 @@
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <fcntl.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_pipeline_function.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hrasolof <hrasolof@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/11 11:04:54 by hrasolof          #+#    #+#             */
+/*   Updated: 2024/12/11 11:06:08 by hrasolof         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+#include "headers/minishell.h"
 
 /*ONLY DRAFT, NOT THE REAL ONE FOR NOW*/
 

@@ -74,6 +74,7 @@ int unset_variable(t_env **env_list, char *var_name);
 int print_env(t_env *head);
 int     ft_search_until_egal(char *str, char *str_tocompare);
 int print_env_export(t_env *head);
+int ft_contains_pipe(char **args);
 char	**ft_toksplit(const char *str);
 char *find_program_in_path(const char *program);
 t_env *create_env_node(char *var_name, char *content);
@@ -84,6 +85,7 @@ void append_env_node(t_env **env_list, t_env *new_node);
 void free_tab(char **str);
 void free_tab_struct(t_datatok *data);
 void ft_remove_quote(char   **args);
+void execute_pipeline(char **args, t_env *envp);
 
 #endif
 

@@ -27,6 +27,7 @@ SRCS = 	minishell.c \
 		src/ft_utils.c \
 		ft_remove_quote.c \
 		src/create_env.c \
+		execute_pipeline_function.c
 
 LIBFT_PATH = Libft
 LIBFT = $(LIBFT_PATH)/libft.a

@@ -31,6 +31,8 @@ int main(int ac, char *av[], char **env)
         if (*input)
             add_history(input);
         args = ft_toksplit(input);
+        if (ft_contains_pipe(args))
+            execute_pipeline(args, envp); // Handle pipeline commands
         if (!built_in_command(args, envp))
             execute_command(args, env);
         free(input);

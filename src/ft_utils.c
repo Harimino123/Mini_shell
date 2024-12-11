@@ -6,7 +6,7 @@
 /*   By: hrasolof <hrasolof@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 10:41:41 by hrasolof          #+#    #+#             */
-/*   Updated: 2024/11/18 11:51:21 by hrasolof         ###   ########.fr       */
+/*   Updated: 2024/12/11 11:03:29 by hrasolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,16 @@ int     ft_search_until_egal(char *str, char *str_tocompare)
         return (0);
     else
         return (1);
+}
+
+int ft_contains_pipe(char **args)
+{
+    int i = 0;
+
+    while (args[i]) {
+        if (strcmp(args[i], "|") == 0)
+            return 1; // Found a pipe
+        i++;
+    }
+    return 0; // No pipe found
 }
