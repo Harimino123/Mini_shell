@@ -6,7 +6,7 @@
 /*   By: hrasolof <hrasolof@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 11:04:54 by hrasolof          #+#    #+#             */
-/*   Updated: 2024/12/11 11:06:08 by hrasolof         ###   ########.fr       */
+/*   Updated: 2024/12/11 11:07:10 by hrasolof         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /*ONLY DRAFT, NOT THE REAL ONE FOR NOW*/
 
-void execute_pipeline(char **args, t_env *envp)
+void execute_pipeline(char **args)
 {
     int i = 0;
     int pipefd[2];

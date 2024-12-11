@@ -85,7 +85,7 @@ void append_env_node(t_env **env_list, t_env *new_node);
 void free_tab(char **str);
 void free_tab_struct(t_datatok *data);
 void ft_remove_quote(char   **args);
-void execute_pipeline(char **args, t_env *envp);
+void execute_pipeline(char **args);
 
 #endif
 
