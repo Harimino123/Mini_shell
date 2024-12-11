@@ -148,35 +148,56 @@ int extract_word(t_datatok *data, const char *str)
     size_t len;
     int in_quotes = 0;
 
-    // Handle quotes if present
+    // Check for quotes
     if (str[data->index] == '"')
         in_quotes = 1;
     else if (str[data->index] == '\'')
         in_quotes = 2;
+
     if (in_quotes)
         data->index++;
-    data->index2 = data->index;
-    // Extract the word
-    while (str[data->index] && ((in_quotes &&
-            ((in_quotes == 1 && str[data->index] != '"') || 
-            (in_quotes == 2 && str[data->index] != '\''))) ||
-            (!in_quotes && str[data->index] != '|' && !ft_isspace(str[data->index]) && !ft_special_char(str[data->index])))) {
-        data->index++;
+
+    // Check for special character as a standalone token
+    if (!in_quotes && ft_special_char(str[data->index]))
+    {
+        len = 1; // Special character is one token
+        data->index2 = data->index;
+        data->index++; // Move past the special character
     }
-    len = data->index - data->index2;
+    else
+    {
+        // General tokenization for words
+        data->index2 = data->index;
+        while (str[data->index] && 
+               ((in_quotes && 
+                ((in_quotes == 1 && str[data->index] != '"') || 
+                 (in_quotes == 2 && str[data->index] != '\''))) || 
+               (!in_quotes && !ft_isspace(str[data->index]) && !ft_special_char(str[data->index]))))
+        {
+            data->index++;
+        }
+        len = data->index - data->index2;
+    }
+
+    // Allocate memory for the token
     data->out[data->tab_i] = malloc(sizeof(char) * (len + 1));
     if (!data->out[data->tab_i])
     {
         free_tab_struct(data);
-        return (0);
+        return 0;
     }
+
+    // Copy the token to the output array
     ft_strncpy(data->out[data->tab_i], &str[data->index2], len);
     data->out[data->tab_i++][len] = '\0';
-    // Handle closing quotes
+
+    // Close the quote if needed
     if (in_quotes && (str[data->index] == '"' || str[data->index] == '\''))
         data->index++;
-    return (1);
+
+    return 1;
 }
+
 
 char **ft_toksplit(const char *str)
 {
@@ -185,6 +206,7 @@ char **ft_toksplit(const char *str)
 
     if (!str)
         return (NULL);
+    printf("Input string : %s\n", str);
     ft_assigne(&data, str);
     while (str[data.index])
     {
@@ -193,6 +215,7 @@ char **ft_toksplit(const char *str)
             data.index++;
         if (str[data.index] && !ft_isspace(str[data.index]) && !ft_special_char(str[data.index]) && str[data.index] != '|')
         {
+            printf("Processing character: %c\n", str[data.index]);
             if (!extract_word(&data, str))
                 return (NULL);
         }
